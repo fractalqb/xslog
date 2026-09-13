@@ -1,6 +1,6 @@
 module git.fractalqb.de/fractalqb/xslog
 
-go 1.27.1
+go 1.27
 
 require git.fractalqb.de/fractalqb/xsx v0.19.0
 
