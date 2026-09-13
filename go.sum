@@ -1,8 +1,8 @@
-git.fractalqb.de/fractalqb/eloc v0.5.0 h1:Zlp8xkkAEEtOvY+d4JHudJI7KUs+x/46m1qJyPD5viI=
-git.fractalqb.de/fractalqb/eloc v0.5.0/go.mod h1:JMv7NovIUv6IXvJ71yA++nYNCs+14MvfBPZ26A2CQQc=
+git.fractalqb.de/fractalqb/eloc v0.6.0 h1:NrhpSf8RSGnCN8U8KjjvxD8ci6s/AWu7s8ESdOmOPn8=
+git.fractalqb.de/fractalqb/eloc v0.6.0/go.mod h1:UYvtvQNTnjoFH/q/9dHLoLuCPKEJU6w7W6vIM/Grw3o=
 git.fractalqb.de/fractalqb/testerr v0.3.0 h1:MJGbhEBcJqd7OIEGACaVBPXzK0k22X/LYp1MSWq0Qrk=
 git.fractalqb.de/fractalqb/testerr v0.3.0/go.mod h1:9QIePAgsw5T/fD2CZmMUFs9xdBxryombyGoA812O288=
-git.fractalqb.de/fractalqb/xsx v0.18.0 h1:1h6OMPqClSlj6dEnGumueHG/fuy4zsFo7tAE8tCdWRM=
-git.fractalqb.de/fractalqb/xsx v0.18.0/go.mod h1:/BvidGj11QZsFA7PoBL78Fk2opoJIa79WnHdYFYEyj0=
-golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa h1:QSyA8ishJCyT21kER9KwNt0b7BM3iRK4x9QXhjN5Fdk=
-golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa/go.mod h1:zeBbvyFKDaLwa7CH/zI8KXt7gTl14SF7sO08Pl5jBCM=
+git.fractalqb.de/fractalqb/xsx v0.19.0 h1:d9E1QP28CRzvbeSKxwKmBxdLXA/w9nNH7RLUoZ2elFk=
+git.fractalqb.de/fractalqb/xsx v0.19.0/go.mod h1:vBKD0kJ5TFQ7keMK5nqO9nySbpzWkGG+UPTZCWwuWik=
+golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba h1:Ck8QetSgk912qxWLMCKxd0in+aiyBQyDSMae6e/xmpU=
+golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba/go.mod h1:50RgIsmK7OwqzTTeqcSXQW8SswW0o8fRcDxmqGluJ8E=
