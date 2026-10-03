@@ -13,7 +13,9 @@ S-eXpressions.
 A log is a stream of XSX expressions, i.e. a real syntax with balanced brackets
 instead of a line format that only pretends to be structured. That makes a log
 both readable in a terminal and parseable without heuristics – and it is
-markedly more compact and faster to write than JSON.
+markedly more compact than JSON. Benchmarks show xslog can also be faster to
+write, though the speed advantage depends on the record and whether source
+locations are enabled.
 
 ```
 (2026-09-04T17:22:45.981+2 INFO ~main.go:14 "listening" ~service acme ~addr 0.0.0.0:8080 ~tls false)
@@ -39,8 +41,9 @@ used by the message inline and writes remaining scoped attributes after it.
   indented over several lines for reading in a terminal.
 - **A reader** that parses a log back into `slog.Record`s.
 - **A command** to pretty print, filter and normalize a log.
-- **30–43 % smaller records than `slog.JSONHandler`** and **1.2–1.7 × faster**,
-  with zero allocations in the common cases. See [Performance](#performance).
+- **30–43 % smaller records than `slog.JSONHandler`**, with workload-dependent
+  write speed and zero allocations in common cases. See
+  [Performance](#performance).
 - **A well-behaved handler**: passes the `testing/slogtest` conformance suite,
   honours `ReplaceAttr`, `AddSource` and `Level`, elides empty groups and
   preformats `WithAttrs`.
@@ -166,29 +169,31 @@ free-form text.
 
 ## Performance
 
-Measured with `go test -bench . -benchmem`, Go 1.27.1, linux/amd64, 12th Gen
-Intel i7-1260P, writing to a discarding `io.Writer` so no I/O is included. The
-scenarios are in [`bench_test.go`](bench_test.go); run them yourself before
-trusting them.
+Medians of 10 runs of `go test -bench . -benchmem -count=10`, with Go 1.27.1
+and XSX v0.20.0 on linux/amd64, AMD Ryzen AI 7 PRO 350. Writes go to a
+discarding `io.Writer`, so no I/O is included. The scenarios are in
+[`bench_test.go`](bench_test.go); results vary by machine and Go version, so
+run them yourself before trusting them.
 
 ### Time per record
 
 | scenario | xslog | spaced | `JSONHandler` | `TextHandler` | vs JSON |
 |---|---|---|---|---|---|
-| message only | **262** | 282 | 369 | 442 | 1.41× |
-| `With` + `WithGroup`, 2 attrs | **419** | 502 | 549 | 635 | 1.31× |
-| 5 attrs | **607** | 689 | 734 | 795 | 1.21× |
-| group attribute | **617** | 671 | 742 | 795 | 1.20× |
-| `[]int` value | **528** | 549 | 763 | 912 | 1.45× |
+| message only | **192** | 195 | 267 | 279 | 1.39× |
+| `With` + `WithGroup`, 2 attrs | **311** | 335 | 382 | 443 | 1.23× |
+| 5 attrs | **470** | 499 | 505 | 527 | 1.07× |
+| group attribute | **571** | 588 | 608 | 711 | 1.07× |
+| `[]int` value | **431** | 442 | 596 | 725 | 1.38× |
 
-ns/op. With `AddSource` the gap widens, because a file path is a plain XSX
-symbol but has to be escaped as a JSON string:
+ns/op; these results range from a modest advantage for attribute-heavy records
+to a larger one for message-only and slice-value records. With `AddSource`, the
+gap widens in these scenarios:
 
 | scenario | xslog | `JSONHandler` | vs JSON |
 |---|---|---|---|
-| message only | **577** | 996 | 1.73× |
-| `With` + `WithGroup`, 2 attrs | **708** | 1148 | 1.62× |
-| 5 attrs | **897** | 1294 | 1.44× |
+| message only | **546** | 1010 | 1.85× |
+| `With` + `WithGroup`, 2 attrs | **750** | 1167 | 1.55× |
+| 5 attrs | **891** | 1259 | 1.41× |
 
 ### Allocations
 
